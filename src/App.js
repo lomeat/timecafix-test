@@ -12,12 +12,16 @@ export const App = () => {
   console.log(isListVisible);
 
   return (
-    <Grid.Provider
-      padding="20px"
-      breakpoints={{ mobile: "-500", desktop: "+501" }}
-    >
-      <List direction="vertical">
-        <Title onClick={handleClickTitleButton}>Title</Title>
+    <Grid.Provider breakpoints={{ mobile: "-500", desktop: "+501" }}>
+      <List
+        isListVisible={isListVisible}
+        direction="vertical"
+        mobile={{ width: "96vw" }}
+        desktop={{ width: "20em" }}
+      >
+        <Title isListVisible={isListVisible} onClick={handleClickTitleButton}>
+          Title
+        </Title>
         {isListVisible && (
           <>
             <Item>Button 1</Item>
@@ -31,15 +35,37 @@ export const App = () => {
 };
 
 const List = styled(Grid.Bounds)`
-  background: #fff;
-  border: 1px solid black;
   font-family: sans-serif;
-`;
-
-const Title = styled(Grid.Box)`
-  color: red;
+  overflow: hidden;
+  background: #fff;
+  border-radius: 1em;
+  box-shadow: 0px 0px 60px rgba(255, 255, 255, 0.8);
 `;
 
 const Item = styled(Grid.Box)`
-  color: green;
+  color: #000;
+  height: 2em;
+  font-size: 1em;
+  cursor: pointer;
+  background: #fff;
+  padding-left: 1em;
+
+  &:hover {
+    background: #df9047;
+    color: #fff;
+  }
+
+  &:active {
+    background: #fff;
+    color: #df9047;
+  }
+`;
+
+const Title = styled(Item)`
+  text-align: center;
+  color: #df9047;
+  border: 2px solid #df9047;
+  box-sizing: border-box;
+  border-radius: 1em;
+  padding-left: 0;
 `;
