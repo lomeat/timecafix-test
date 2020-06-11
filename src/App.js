@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Grid from "hedron";
 
+import { ReactComponent as CircleSVG } from "./circle.svg";
+
 export const App = () => {
   const [title, setTitle] = useState("Title");
   const [isListVisible, setIsListVisible] = useState(false);
@@ -40,20 +42,22 @@ export const App = () => {
         desktop={{ width: "20em" }}
       >
         <Title isListVisible={isListVisible} onClick={handleClickTitleButton}>
-          {title}
+          {title} <StCircleSVG />
         </Title>
         {isListVisible &&
           buttons.map((button) => {
             if (!button.url && !button.callback) {
               return (
                 <Item key={button.id} disabled>
-                  {button.name}
+                  <StCircleSVG /> {button.name}
                 </Item>
               );
             } else {
               return (
                 <Link key={button.id} href={button.url} target="_blank">
-                  <Item onClick={button.callback}>{button.name}</Item>
+                  <Item onClick={button.callback}>
+                    <StCircleSVG /> {button.name}
+                  </Item>
                 </Link>
               );
             }
@@ -62,6 +66,13 @@ export const App = () => {
     </Grid.Provider>
   );
 };
+
+const StCircleSVG = styled(CircleSVG)`
+  fill: inherit;
+  width: 1em;
+  height: 1em;
+  margin-right: 1em;
+`;
 
 const List = styled(Grid.Bounds)`
   font-family: sans-serif;
@@ -78,28 +89,40 @@ const Link = styled.a`
 
 const Item = styled(Grid.Box)`
   color: ${(props) => (props.disabled ? "#ccc" : "000")};
+  fill: ${(props) => (props.disabled ? "#ccc" : "#df9047")};
   height: 2em;
   font-size: 1em;
   cursor: pointer;
   background: #fff;
   padding-left: 1em;
+  display: flex;
+  align-items: center;
 
   &:hover {
     background: ${(props) => (props.disabled ? "#ccc" : "#df9047")};
     color: #fff;
+    fill: #fff;
   }
 
   &:active {
     background: #fff;
     color: ${(props) => (props.disabled ? "#ccc" : "#df9047")};
+    fill: ${(props) => (props.disabled ? "#ccc" : "#df9047")};
   }
 `;
 
 const Title = styled(Item)`
-  text-align: center;
   color: #df9047;
   border: 2px solid #df9047;
   box-sizing: border-box;
   border-radius: 1em;
   padding-left: 0;
+  justify-content: center;
+  position: relative;
+
+  svg {
+    position: absolute;
+    top: 0.4em;
+    right: 1em;
+  }
 `;
