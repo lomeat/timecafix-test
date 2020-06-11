@@ -7,7 +7,8 @@ import { ReactComponent as CircleSVG } from "./circle.svg";
 export const Button = ({ id, name, url, callback }) => (
   <Link href={url} key={id} target="_blank">
     <StButton disabled={!url && !callback} onClick={callback}>
-      <StCircleSVG /> {name}
+      <StCircleSVG />
+      <span>{name}</span>
     </StButton>
   </Link>
 );
@@ -52,8 +53,7 @@ export const App = () => {
         <Title isListVisible={isListVisible} onClick={handleClickTitleButton}>
           {title} <StCircleSVG />
         </Title>
-        {isListVisible &&
-          buttons.map((button) => <Button {...button}></Button>)}
+        {isListVisible && buttons.map((button) => <Button {...button} />)}
       </List>
     </Grid.Provider>
   );
