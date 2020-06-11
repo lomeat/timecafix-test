@@ -4,6 +4,14 @@ import Grid from "hedron";
 
 import { ReactComponent as CircleSVG } from "./circle.svg";
 
+export const Item = ({ id, name, url, callback }) => (
+  <Link href={url} key={id} target="_blank">
+    <StItem disabled={!url && !callback} onClick={callback}>
+      <StCircleSVG /> {name}
+    </StItem>
+  </Link>
+);
+
 export const App = () => {
   const [title, setTitle] = useState("Title");
   const [isListVisible, setIsListVisible] = useState(false);
@@ -44,24 +52,7 @@ export const App = () => {
         <Title isListVisible={isListVisible} onClick={handleClickTitleButton}>
           {title} <StCircleSVG />
         </Title>
-        {isListVisible &&
-          buttons.map((button) => {
-            if (!button.url && !button.callback) {
-              return (
-                <Item key={button.id} disabled>
-                  <StCircleSVG /> {button.name}
-                </Item>
-              );
-            } else {
-              return (
-                <Link key={button.id} href={button.url} target="_blank">
-                  <Item onClick={button.callback}>
-                    <StCircleSVG /> {button.name}
-                  </Item>
-                </Link>
-              );
-            }
-          })}
+        {isListVisible && buttons.map((button) => <Item {...button}></Item>)}
       </List>
     </Grid.Provider>
   );
@@ -87,7 +78,7 @@ const Link = styled.a`
   color: #000;
 `;
 
-const Item = styled(Grid.Box)`
+const StItem = styled(Grid.Box)`
   color: ${(props) => (props.disabled ? "#ccc" : "000")};
   fill: ${(props) => (props.disabled ? "#ccc" : "#df9047")};
   height: 2em;
@@ -111,7 +102,7 @@ const Item = styled(Grid.Box)`
   }
 `;
 
-const Title = styled(Item)`
+const Title = styled(StItem)`
   color: #df9047;
   border: 2px solid #df9047;
   box-sizing: border-box;
