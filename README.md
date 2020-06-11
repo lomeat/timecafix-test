@@ -18,7 +18,7 @@
 
 ### Пример JSON данных
 
-https://www.npoint.io/docs/10d3600aa00dc85fd502
+https://www.npoint.io/docs/63ed3a290e62850efefd (его можно менять прямо там и данные изменятся в демке)
 
 ```json
 {
