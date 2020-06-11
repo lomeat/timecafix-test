@@ -26,8 +26,8 @@ export const App = () => {
     {
       id: Math.random() * 1000,
       name: "Example Disabled Button",
-      callback: () => {},
-      url: "",
+      callback: null,
+      url: null,
     },
     {
       id: Math.random() * 1000,
@@ -57,13 +57,23 @@ export const App = () => {
           Title
         </Title>
         {isListVisible &&
-          buttons.map((button) => (
-            <Link href={button.url} target="_blank">
-              <Item key={button.id} onClick={button.callback}>
-                {button.name}
-              </Item>
-            </Link>
-          ))}
+          buttons.map((button) => {
+            if (!button.url && !button.callback) {
+              return (
+                <Item key={button.id} disabled>
+                  {button.name}
+                </Item>
+              );
+            } else {
+              return (
+                <Link href={button.url} target="_blank">
+                  <Item key={button.id} onClick={button.callback}>
+                    {button.name}
+                  </Item>
+                </Link>
+              );
+            }
+          })}
       </List>
     </Grid.Provider>
   );
@@ -83,7 +93,7 @@ const Link = styled.a`
 `;
 
 const Item = styled(Grid.Box)`
-  color: #000;
+  color: ${(props) => (props.disabled ? "#ccc" : "000")};
   height: 2em;
   font-size: 1em;
   cursor: pointer;
@@ -91,13 +101,13 @@ const Item = styled(Grid.Box)`
   padding-left: 1em;
 
   &:hover {
-    background: #df9047;
+    background: ${(props) => (props.disabled ? "#ccc" : "#df9047")};
     color: #fff;
   }
 
   &:active {
     background: #fff;
-    color: #df9047;
+    color: ${(props) => (props.disabled ? "#ccc" : "#df9047")};
   }
 `;
 
