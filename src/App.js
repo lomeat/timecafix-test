@@ -10,7 +10,7 @@ export const App = () => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(
-        "https://www.npoint.io/docs/63ed3a290e62850efefd"
+        "https://api.npoint.io/63ed3a290e62850efefd"
       );
       const result = await response.json();
       const newList = result.list.map((item) => ({
