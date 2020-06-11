@@ -4,11 +4,11 @@ import Grid from "hedron";
 
 import { ReactComponent as CircleSVG } from "./circle.svg";
 
-export const Item = ({ id, name, url, callback }) => (
+export const Button = ({ id, name, url, callback }) => (
   <Link href={url} key={id} target="_blank">
-    <StItem disabled={!url && !callback} onClick={callback}>
+    <StButton disabled={!url && !callback} onClick={callback}>
       <StCircleSVG /> {name}
-    </StItem>
+    </StButton>
   </Link>
 );
 
@@ -52,7 +52,8 @@ export const App = () => {
         <Title isListVisible={isListVisible} onClick={handleClickTitleButton}>
           {title} <StCircleSVG />
         </Title>
-        {isListVisible && buttons.map((button) => <Item {...button}></Item>)}
+        {isListVisible &&
+          buttons.map((button) => <Button {...button}></Button>)}
       </List>
     </Grid.Provider>
   );
@@ -78,7 +79,7 @@ const Link = styled.a`
   color: #000;
 `;
 
-const StItem = styled(Grid.Box)`
+const StButton = styled(Grid.Box)`
   color: ${(props) => (props.disabled ? "#ccc" : "000")};
   fill: ${(props) => (props.disabled ? "#ccc" : "#df9047")};
   height: 2em;
@@ -102,7 +103,7 @@ const StItem = styled(Grid.Box)`
   }
 `;
 
-const Title = styled(StItem)`
+const Title = styled(StButton)`
   color: #df9047;
   border: 2px solid #df9047;
   box-sizing: border-box;
