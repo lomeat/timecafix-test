@@ -1,0 +1,26 @@
+{
+  "name": "Dropdown list",
+  "active": false,
+  "list": [
+    {
+      "name": "My Telegram",
+      "url": "https://vk.com/lomeat",
+      "callback": "function() { console.log('You already know my telegram contact :D'); }"
+    },
+    {
+      "name": "My VK",
+      "url": "https://vk.com/lomeat",
+      "callback": "function() { console.log('Yeah, its my VK page. There I post soul`s music tracks and create author`s playlists'); }"
+    },
+    {
+      "name": "Example Disabled Button",
+      "url": null,
+      "callback": null
+    },
+    {
+      "name": "My art on Instagram",
+      "url": "https://instagram.com/lomeat.art",
+      "callback": "function() { console.log('You just visited page of my hobbie. Sometimes I draw these stickers when feel inspiration of my girl'); }"
+    }
+  ]
+}

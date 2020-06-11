@@ -1,45 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Grid from "hedron";
 
 export const App = () => {
+  const [title, setTitle] = useState("Title");
   const [isListVisible, setIsListVisible] = useState(false);
-  const buttons = useState([
-    {
-      id: Math.random() * 1000,
-      name: "My Telegram",
-      callback: () => {
-        console.log("You already know my telegram contact :D");
-      },
-      url: "https://t.me/lomeat",
-    },
-    {
-      id: Math.random() * 1000,
-      name: "My VK",
-      callback: () => {
-        console.log(
-          "Yeah, its my VK page. There I post soul`s music tracks and create author`s playlists"
-        );
-      },
-      url: "https://vk.com/lomeat",
-    },
-    {
-      id: Math.random() * 1000,
-      name: "Example Disabled Button",
-      callback: null,
-      url: null,
-    },
-    {
-      id: Math.random() * 1000,
-      name: "My Art Instagram",
-      callback: () => {
-        console.log(
-          "You just visited page of my hobbie. Sometimes I draw these stickers when feel inspiration of my girl"
-        );
-      },
-      url: "https://instagram.com/lomeat.art",
-    },
-  ])[0];
+  const [buttons, setButtons] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch(
+        "https://api.npoint.io/10d3600aa00dc85fd502"
+      );
+      const result = await response.json();
+      const newList = result.list.map((item) => ({
+        ...item,
+        // eslint-disable-next-line no-new-func
+        callback: new Function("return " + item.callback)(),
+      }));
+
+      setTitle(result.name);
+      setIsListVisible(result.active);
+      setButtons(newList);
+    };
+
+    fetchData();
+  }, []);
 
   const handleClickTitleButton = () => {
     setIsListVisible((state) => !state);
@@ -54,7 +40,7 @@ export const App = () => {
         desktop={{ width: "20em" }}
       >
         <Title isListVisible={isListVisible} onClick={handleClickTitleButton}>
-          Title
+          {title}
         </Title>
         {isListVisible &&
           buttons.map((button) => {
@@ -66,10 +52,8 @@ export const App = () => {
               );
             } else {
               return (
-                <Link href={button.url} target="_blank">
-                  <Item key={button.id} onClick={button.callback}>
-                    {button.name}
-                  </Item>
+                <Link key={button.id} href={button.url} target="_blank">
+                  <Item onClick={button.callback}>{button.name}</Item>
                 </Link>
               );
             }
