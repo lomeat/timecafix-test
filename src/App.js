@@ -4,9 +4,9 @@ import Grid from "hedron";
 
 import { ReactComponent as CircleSVG } from "./circle.svg";
 
-export const Button = ({ id, name, url, callback }) => (
-  <Link href={url} key={id} target="_blank">
-    <StButton disabled={!url && !callback} onClick={callback}>
+export const Button = ({ name, url, callback }) => (
+  <Link href={url} target="_blank">
+    <StButton isDisable={!url && !callback} onClick={callback}>
       <StCircleSVG />
       <span>{name}</span>
     </StButton>
@@ -38,22 +38,23 @@ export const App = () => {
     fetchData();
   }, []);
 
-  const handleClickTitleButton = () => {
+  const toggleListVisibility = () => {
     setIsListVisible((state) => !state);
   };
 
   return (
     <Grid.Provider breakpoints={{ mobile: "-500", desktop: "+501" }}>
       <List
-        isListVisible={isListVisible}
         direction="vertical"
         mobile={{ width: "96vw" }}
         desktop={{ width: "20em" }}
       >
-        <Title isListVisible={isListVisible} onClick={handleClickTitleButton}>
-          {title} <StCircleSVG />
+        <Title onClick={toggleListVisibility}>
+          <span>{title}</span>
+          <StCircleSVG />
         </Title>
-        {isListVisible && buttons.map((button) => <Button {...button} />)}
+        {isListVisible &&
+          buttons.map((button) => <Button key={button.id} {...button} />)}
       </List>
     </Grid.Provider>
   );
@@ -80,8 +81,8 @@ const Link = styled.a`
 `;
 
 const StButton = styled(Grid.Box)`
-  color: ${(props) => (props.disabled ? "#ccc" : "000")};
-  fill: ${(props) => (props.disabled ? "#ccc" : "#df9047")};
+  color: ${(props) => (props.isDisable ? "#ccc" : "000")};
+  fill: ${(props) => (props.isDisable ? "#ccc" : "#df9047")};
   height: 2em;
   font-size: 1em;
   cursor: pointer;
@@ -91,15 +92,15 @@ const StButton = styled(Grid.Box)`
   align-items: center;
 
   &:hover {
-    background: ${(props) => (props.disabled ? "#ccc" : "#df9047")};
+    background: ${(props) => (props.isDisable ? "#ccc" : "#df9047")};
     color: #fff;
     fill: #fff;
   }
 
   &:active {
     background: #fff;
-    color: ${(props) => (props.disabled ? "#ccc" : "#df9047")};
-    fill: ${(props) => (props.disabled ? "#ccc" : "#df9047")};
+    color: ${(props) => (props.isDisable ? "#ccc" : "#df9047")};
+    fill: ${(props) => (props.isDisable ? "#ccc" : "#df9047")};
   }
 `;
 
@@ -109,8 +110,8 @@ const Title = styled(StButton)`
   box-sizing: border-box;
   border-radius: 1em;
   padding-left: 0;
-  justify-content: center;
   position: relative;
+  justify-content: center;
 
   svg {
     position: absolute;
